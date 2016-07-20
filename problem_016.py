@@ -1,6 +1,5 @@
 # 3Sum Closest - https://leetcode.com/problems/3sum-closest/
 import sys
-from bisect import bisect
 
 class Solution(object):
     def threeSumClosest(self, nums, target):
@@ -12,23 +11,19 @@ class Solution(object):
         nums.sort()
         mn = sys.maxint
         res = 0
-        c = {}
-        d = {}
         for i in xrange(len(nums)):
-            d[nums[i]] = i
-        for i in xrange(len(nums)):
-            for j in xrange(i + 1, len(nums)):
-                sm = nums[i] + nums[j]
-                s = target - sm
-                if min(abs(s - nums[0]), abs(s - nums[len(nums)-1])) >= mn:
-                    continue
-                ix = bisect(nums, s)
-                for k in xrange(max(0, ix - 2), min(len(nums), ix + 3)):
-                    if k == i or k == j:
-                        continue
-                    s = sm + nums[k]
-                    diff = abs(target - s)
-                    if diff < mn:
-                        mn = diff
-                        res = s
+            j = i + 1
+            k = len(nums) - 1
+            while j < k:
+                s = nums[i] + nums[j] + nums[k]
+                diff = abs(target - s)
+                if diff == 0:
+                    return s
+                if diff < mn:
+                    mn = diff
+                    res = s
+                if s < target:
+                    j += 1
+                else:
+                    k -= 1
         return res
