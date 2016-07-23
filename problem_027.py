@@ -6,15 +6,9 @@ class Solution(object):
         :type val: int
         :rtype: int
         """
-        l = 0
-        for i in reversed(range(len(nums))):
-            if nums[i] == val:
-                l += 1
-                for j in xrange(i + 1, len(nums)):
-                    self.swap(nums, j - 1, j)
-        return len(nums) - l
-                    
-    def swap(self, a, i, j):
-        t = a[i]
-        a[i] = a[j]
-        a[j] = t
+        i = 0
+        for j in xrange(len(nums)):
+            if nums[j] != val:
+                nums[i] = nums[j]
+                i += 1
+        return i
