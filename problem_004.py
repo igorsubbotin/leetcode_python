@@ -11,25 +11,20 @@ class Solution(object):
         p = self.findBestCut(nums1, nums2) + self.findBestCut(nums2, nums1)
         mn = sys.maxint
         res = []
-        for diff, ix in p:
-            diff = abs(diff)
-            if ix is None:
-                continue
+        for diff, n in p:
             if diff < mn:
                 mn = diff
                 res = []
             if diff == mn:
-                res.append(ix)
+                res.append(n)
         return float(sum(res)) / len(res)
         
     def findBestCut(self, a, b):
         if len(a) == 0:
-            return [(sys.maxint, None), (sys.maxint, None)]
+            return []
         v = set()
-        mn_plus = sys.maxint
-        mn_plus_i = None
-        mn_minus = -sys.maxint
-        mn_minus_i = None
+        mn = sys.maxint
+        res = []
         start = 0
         end = len(a) - 1
         i = len(a) / 2
@@ -37,34 +32,26 @@ class Solution(object):
             if i in v:
                 break
             v.add(i)
-            n = a[i]
-            l, r = self.findCut(b, n)
+            l, r = self.findCut(b, a[i])
             left = i + l
             right = len(a) - i - 1 + r
-            diff = right - left
-            if diff > 0:
-                if diff < mn_plus:
-                    mn_plus = diff
-                    mn_plus_i = i
+            diff = abs(right - left)
+            if diff < mn:
+                mn = diff
+                res = []
+            if diff == mn:
+                res.append((diff, a[i]))
+            if right > left:
                 start = i
                 i = start + (end - start) / 2
                 if end - start == 1:
                     i += 1
-            elif diff < 0:
-                if diff > mn_minus:
-                    mn_minus = diff
-                    mn_minus_i = i
+            elif right < left:
                 end = i
                 i = start + (end - start) / 2
             else:
-                return [(0, a[i]), (0, a[i])]
-        minus_res = None
-        if mn_minus_i is not None:
-            minus_res = a[mn_minus_i]
-        plus_res = None
-        if mn_plus_i is not None:
-            plus_res = a[mn_plus_i]
-        return [(mn_minus, minus_res), (mn_plus, plus_res)]
+                return [(0, a[i])]
+        return res
         
     def findCut(self, a, n):
         return self.findCutRecursive(a, n, 0, len(a) - 1)
