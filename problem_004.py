@@ -8,10 +8,9 @@ class Solution(object):
         :type nums2: List[int]
         :rtype: float
         """
-        p = self.findBestCut(nums1, nums2) + self.findBestCut(nums2, nums1)
         mn = sys.maxint
         res = []
-        for diff, n in p:
+        for diff, n in self.findBestCut(nums1, nums2) + self.findBestCut(nums2, nums1):
             if diff < mn:
                 mn = diff
                 res = []
