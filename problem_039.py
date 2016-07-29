@@ -10,7 +10,6 @@ class Solution(object):
         """
         candidates.sort()
         s = []
-        r = set()
         res = []
         c = []
         ix = 0
@@ -35,11 +34,7 @@ class Solution(object):
                 c = copy(a)
                 c.append(x)
                 if nn == target:
-                    c.sort()
-                    t = tuple(c)
-                    if t not in r:
-                        r.add(t)
-                        res.append(t)
+                    res.append(c)
                     continue
                 s.append((c, nn, j))
         return res
