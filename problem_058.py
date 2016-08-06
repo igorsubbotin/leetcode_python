@@ -6,8 +6,7 @@ class Solution(object):
         :rtype: int
         """
         res = 0
-        for i in reversed(xrange(len(s))):
-            c = s[i]
+        for c in s[::-1]:
             if c == ' ':
                 if res > 0:
                     break
