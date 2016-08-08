@@ -13,25 +13,22 @@ class Solution(object):
         :type l2: ListNode
         :rtype: ListNode
         """
-        x = self.getNumber(l1) + self.getNumber(l2)
-        return self.getList(x)
-        
-    def getNumber(self, l):
-        i = 1
-        res = 0
-        while l is not None:
-            res += l.val * i
-            i *= 10
-            l = l.next
-        return res
-    
-    def getList(self, n):
-        l = ListNode(0)
-        res = l
-        while True:
-            l.val = n % 10
-            n /= 10
-            if n == 0:
-                return res
-            l.next = ListNode(0)
-            l = l.next
+        dummy = ListNode(0)
+        head = dummy
+        shift = 0
+        while l1 is not None or l2 is not None:
+            a1 = 0
+            if l1 is not None:
+                a1 = l1.val
+                l1 = l1.next
+            a2 = 0
+            if l2 is not None:
+                a2 = l2.val
+                l2 = l2.next
+            sm = a1 + a2 + shift
+            shift = sm / 10
+            head.next = ListNode(sm % 10)
+            head = head.next
+        if shift > 0:
+            head.next = ListNode(shift)
+        return dummy.next
