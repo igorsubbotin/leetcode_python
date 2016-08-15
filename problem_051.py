@@ -16,6 +16,8 @@ def solve(matrix, q, i):
     if q == 0:
         return [matrix]
     s, queens, n = matrix
+    if len(s) == 0:
+        return []
     res = []
     a = []
     for j in xrange(n):
