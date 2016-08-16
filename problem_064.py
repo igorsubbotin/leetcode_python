@@ -1,5 +1,4 @@
 # Minimum Path Sum - https://leetcode.com/problems/minimum-path-sum/
-from Queue import PriorityQueue
 class Solution(object):
     def minPathSum(self, grid):
         """
@@ -8,17 +7,16 @@ class Solution(object):
         """
         n = len(grid)
         m = len(grid[0])
-        q = PriorityQueue()
-        q.put((0, 0, grid[0][0]))
-        v = set()
-        while not q.empty():
-            i, j, p = q.get()
-            if i == n - 1 and j == m - 1:
-                return p
-            if (i, j) in v:
-                continue
-            v.add((i, j))
-            if i + 1 < n:
-                q.put((i + 1, j, p + grid[i + 1][j]))
-            if j + 1 < m:
-                q.put((i, j + 1, p + grid[i][j + 1]))
+        for i in xrange(n):
+            for j in xrange(m):
+                grid[i][j] += getMin(i, j, grid)
+        return grid[n - 1][m - 1]
+    
+def getMin(i, j, grid):
+    if i == 0 and j == 0:
+        return 0
+    if i - 1 < 0:
+        return grid[i][j - 1]
+    elif j - 1 < 0:
+        return grid[i - 1][j]
+    return min(grid[i][j - 1], grid[i - 1][j])
